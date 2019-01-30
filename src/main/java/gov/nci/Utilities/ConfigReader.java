@@ -4,16 +4,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Map;
 import java.util.Properties;
-import java.util.TreeMap;
 
 import org.apache.commons.lang3.SystemUtils;
 
 /*To read the Property file*/
 public class ConfigReader {
 	Properties properties;
-	String hostName;
+
 
 	/**
 	 * Constructor.
@@ -25,43 +23,25 @@ public class ConfigReader {
 	 */
 	public ConfigReader(String environment) {
 		try {
-			SetHostName(environment);
+      // Load configuration properties.
 			File file = new File("./configuration/config.properties");
 			FileInputStream fis = new FileInputStream(file);
 			properties = new Properties();
-			properties.load(fis);
+      properties.load(fis);
+      // If an environment name was specified, set it as the one to use.
+      if(environment != null && !environment.isEmpty()){
+        properties.setProperty("environment.active", environment.toLowerCase());
+      }
+
 		} catch (Exception e) {
 			System.out.println("Exception:" + e.getMessage());
-		}
+    }
 	}
 
-
-	/**
-	 * Map of environment names to host names.
-	 */
-	private static final Map<String, String> environmentHostMap = new TreeMap<String, String>(
-			String.CASE_INSENSITIVE_ORDER) {
-		private static final long serialVersionUID = 1L;
-		{
-			put("",      "www");
-			put("prod",  "www");
-			put("qa",    "www-qa");
-			put("dt",    "www-dt-qa");
-			put("blue",  "www-blue-dev");
-			put("red",   "www-red-dev");
-			put("pink",  "www-pink-dev");
-			put("stage", "www-stage");
-		}
-	};
-
-	private void SetHostName(String environment) {
-		if (environment == null)
-			environment = "";
-		hostName = environmentHostMap.get(environment.trim()) + ".cancer.gov";
-	}
 
 	public String GetHostName() {
-		return hostName;
+    String key = "environment.hostname." + properties.getProperty("environment.active");
+    return properties.getProperty(key);
 	}
 
 
@@ -76,7 +56,7 @@ public class ConfigReader {
 		String configUrl = properties.getProperty(pageURL);
 		try {
 			URL oldUrl = new URL(configUrl);
-			URL modifiedURl = new URL(oldUrl.getProtocol(), hostName, oldUrl.getFile());
+			URL modifiedURl = new URL(oldUrl.getProtocol(), GetHostName(), oldUrl.getFile());
 			return modifiedURl.toString();
 		} catch (MalformedURLException e) {
 			throw new RuntimeException( String.format("Config entry '%s' does not contain a valid URL. Found: '%s'.", pageURL, configUrl) );
