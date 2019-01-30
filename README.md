@@ -1,10 +1,18 @@
-# WCMS QA Testing Framework
-Automated test framework using Se WebDriver, TestNG and Maven written in Java.
+# CancerGov Digital Platform
+
+This is the QA automation framework for the [CancerGov Digital Communications Platform](https://github.com/nciocpl/cgov-digital-platform/)
+
 
 ## Prerequisites:
 - JDK 1.8.0_144 or later
+  - [Oracle's download site](https://www.oracle.com/technetwork/java/javase/downloads/index.html)
+  - Installation Instructions
+    [Windows](https://docs.oracle.com/javase/8/docs/technotes/guides/install/windows_jdk_install.html#CHDEBCCJ)
+    [Mac](https://docs.oracle.com/javase/8/docs/technotes/guides/install/mac_jdk.html)
 - [Apache maven](http://maven.apache.org/download.cgi) tool
-- Eclipse Neon or later (optional)
+  - On Mac:
+    - Install [Homebrew](https://brew.sh/)
+    - `brew install maven`
 
 ## Command line execution:
 
