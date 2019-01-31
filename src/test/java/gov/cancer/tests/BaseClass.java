@@ -1,4 +1,4 @@
-package gov.cancer.clinicaltrials;
+package gov.cancer.tests;
 
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
@@ -74,7 +74,6 @@ public class BaseClass {
         driver = BrowserManager.startBrowser(browser, config, "about:blank");
 
         logger = report.startTest(this.getClass().getSimpleName());
-        logger.assignAuthor("Volker");
     }
 
     // Printing out the name of the method before each is run

@@ -1,24 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Clinical Trial Search Suite" parallel="none">
-	<test name="CTS" preserve-order="true">
-		<!--
-			The browser parameter is set in pom.xml as part of invoking
-			the maven-surefire-plugin.
+	<test name="Clinical Trial Search" preserve-order="true">
 
-			<parameter name="browser" value="Chrome" />
-		-->
 		<classes>
-			<class name="gov.cancer.clinicaltrials.BasicSearch_Test" />
-
-			<!--
-
-			These tests are not currently working and need to be repaired
-			before being reinstated.
-
-			<class name="gov.cancer.clinicaltrials.AdvanceSearch_Test" />
-			<class name="gov.cancer.clinicaltrials.AdvanceSearchResults_Test" /> -->
-
+			<class name="gov.cancer.tests.clinicaltrials.BasicSearch_Test" />
 		</classes>
 	</test>
 

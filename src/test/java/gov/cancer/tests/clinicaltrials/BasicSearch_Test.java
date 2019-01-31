@@ -1,4 +1,4 @@
-package gov.cancer.clinicaltrials;
+package gov.cancer.tests.clinicaltrials;
 
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -18,15 +18,11 @@ import org.testng.annotations.Test;
 
 import com.relevantcodes.extentreports.LogStatus;
 
-import gov.cancer.utilities.BrowserManager;
-import gov.cancer.utilities.ExcelManager;
-import gov.cancer.clinicaltrials.common.ApiReference;
 import gov.cancer.clinicaltrials.pages.BasicSearch;
 import gov.cancer.clinicaltrials.pages.SearchResults;
 import gov.cancer.clinicaltrials.pages.SuppressChatPromptPageObject;
-import gov.cancer.commonobjects.Banner;
-import gov.cancer.commonobjects.BreadCrumb;
 import gov.cancer.framework.ParsedURL;
+import gov.cancer.tests.BaseClass;
 
 public class BasicSearch_Test extends BaseClass {
 
