@@ -2,6 +2,34 @@
 
 This is the QA automation framework for the [CancerGov Digital Communications Platform](https://github.com/nciocpl/cgov-digital-platform/)
 
+## Folder Structure
+
+* `configuration` - Main configuration files
+* `resources/drivers` - Driver files for different browsers on differnt platforms.
+* `src` - The source code for this suite.
+  * `src/main/java/gov/cancer/framework` - utility classes used by page objects.
+  * `src/main/java/gov/cancer/pageobject` - the page object classes used for testing.
+  * `src/test/java/gov/cancer/tests` - the test classes.
+* `suites` - [TestNG](https://testng.org/) test suite files.
+* `target` - Generated files. (Not version controlled.)
+* `test-data` - Like it says on the label.
+* `test-output` - Reports and the like. (Not version controlled.)
+
+## Architecture
+
+Tests in this framework follow the [PageObject pattern](https://martinfowler.com/bliki/PageObject.html).
+
+The testing system makes use of the [Selenium WebDriver](https://www.seleniumhq.org/projects/webdriver/) browser automation
+project to control a web browser and read/modify page values.
+
+All browser interactions are controlled using classes in the `gov.cancer` namespace in `{proj_root}/src/main/java/gov/cancer/`.
+High-level page objects are in the `gov.cancer.pageobject` namespace, with additional helper classes in `gov.cancer.framework`.
+
+All test classes reside under the `gov.cancer.tests` namespace in `{proj_root}/src/test/java/gov/cancer/tests`. Test classes work
+with methods from the PageObjects. They do **not** import anything from the `org.openqa.selenium` namespace.
+
+Tests are run using the [TestNG](https://testng.org/) framework.
+
 
 ## Prerequisites:
 - JDK 1.8.0_144 or later
