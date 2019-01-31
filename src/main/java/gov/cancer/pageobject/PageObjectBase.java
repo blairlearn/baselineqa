@@ -1,4 +1,4 @@
-package gov.cancer.framework;
+package gov.cancer.pageobject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -8,6 +8,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
+import gov.cancer.framework.ParsedURL;
 
 /**
  * This is the root base class for all page objects. If a page object class
@@ -20,7 +22,7 @@ import org.openqa.selenium.WebElement;
  * *NOT* update the page. Instead, a new page object, representing the target
  * page should be returned by any method which performs navigation.
  */
-public class PageObjectBase {
+public abstract class PageObjectBase {
 
   WebDriver browser;
 

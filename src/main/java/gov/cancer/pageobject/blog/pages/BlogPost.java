@@ -9,7 +9,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import gov.cancer.framework.ElementChange;
-import gov.cancer.framework.PageObjectBase;
+import gov.cancer.pageobject.PageObjectBase;
 import gov.cancer.framework.ClickUtil;
 import gov.cancer.framework.ScrollUtil;
 import gov.cancer.pageobject.blog.common.BlogLinks;

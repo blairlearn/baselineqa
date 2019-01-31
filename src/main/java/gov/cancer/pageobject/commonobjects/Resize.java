@@ -8,7 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 
-import gov.cancer.framework.PageObjectBase;
+import gov.cancer.pageobject.PageObjectBase;
 
 public class Resize extends PageObjectBase {
 

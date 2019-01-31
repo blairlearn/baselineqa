@@ -14,8 +14,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import gov.cancer.framework.ClickUtil;
 import gov.cancer.framework.ScrollUtil;
-import gov.cancer.framework.PageObjectBase;
-import gov.cancer.framework.PageObjectBase.IPageChangeAction;
+import gov.cancer.pageobject.PageObjectBase;
+import gov.cancer.pageobject.PageObjectBase.IPageChangeAction;
 
 /**
  * This is the base class for all Clinical Trial page objects. This class

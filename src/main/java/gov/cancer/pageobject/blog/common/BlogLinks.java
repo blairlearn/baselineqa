@@ -11,7 +11,7 @@ import org.openqa.selenium.support.PageFactory;
 
 import gov.cancer.framework.ScrollUtil;
 import gov.cancer.framework.ElementChange;
-import gov.cancer.framework.PageObjectBase;
+import gov.cancer.pageobject.PageObjectBase;
 
 public class BlogLinks extends PageObjectBase {
 
