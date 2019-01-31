@@ -22,9 +22,9 @@ import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 
-import gov.cancer.utilities.ConfigReader;
-import gov.cancer.utilities.ScreenShot;
-import gov.cancer.utilities.BrowserManager;
+import gov.cancer.framework.ConfigReader;
+import gov.cancer.framework.ScreenShot;
+import gov.cancer.framework.BrowserManager;
 
 public abstract class BaseClass {
 

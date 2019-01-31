@@ -15,9 +15,9 @@ import org.testng.annotations.Test;
 
 import com.relevantcodes.extentreports.LogStatus;
 
-import gov.cancer.clinicaltrials.pages.BasicSearch;
-import gov.cancer.clinicaltrials.pages.SearchResults;
-import gov.cancer.clinicaltrials.pages.SuppressChatPromptPageObject;
+import gov.cancer.pageobject.clinicaltrials.pages.BasicSearch;
+import gov.cancer.pageobject.clinicaltrials.pages.SearchResults;
+import gov.cancer.pageobject.clinicaltrials.pages.SuppressChatPromptPageObject;
 import gov.cancer.framework.ParsedURL;
 import gov.cancer.tests.BaseClass;
 
