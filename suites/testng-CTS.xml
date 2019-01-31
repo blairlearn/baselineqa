@@ -8,18 +8,18 @@
 
 			<parameter name="browser" value="Chrome" />
 		-->
-		<classes> 	
-			<class name="gov.nci.clinicaltrials.BasicSearch_Test" />
+		<classes>
+			<class name="gov.cancer.clinicaltrials.BasicSearch_Test" />
 
 			<!--
 
 			These tests are not currently working and need to be repaired
 			before being reinstated.
-			
-			<class name="gov.nci.clinicaltrials.AdvanceSearch_Test" />
-			<class name="gov.nci.clinicaltrials.AdvanceSearchResults_Test" /> -->
-			    
+
+			<class name="gov.cancer.clinicaltrials.AdvanceSearch_Test" />
+			<class name="gov.cancer.clinicaltrials.AdvanceSearchResults_Test" /> -->
+
 		</classes>
-	</test> 
+	</test>
 
 </suite>
