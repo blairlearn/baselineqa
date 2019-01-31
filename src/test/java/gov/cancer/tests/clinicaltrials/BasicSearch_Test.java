@@ -23,13 +23,6 @@ import gov.cancer.tests.BaseClass;
 
 public class BasicSearch_Test extends BaseClass {
 
-  // WebDriver driver;
-  private final String TESTDATA_SHEET_NAME = "BasicSearch";
-  private final String BASIC_CANCERTYPE_SHEET_NAME = "Basic Cancer Types";
-  private final String API_REFERENCE_H3 = "The Clinical Trials API: Use our data to power your own clinical trial search";
-
-  private final String BREAD_CRUMB = "Home\nAbout Cancer\nCancer Treatment\nClinical Trials Information";
-
   private static final String KEYWORD_PARAM = "q";
   private static final String CANCERTYPE_PARAM = "t";
   private static final String AGE_PARAM = "a";

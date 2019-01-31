@@ -63,7 +63,7 @@ public abstract class BaseClass {
     System.out.println("\n  Running test: " + this.getClass().getSimpleName());
   }
 
-  // Printing out the name of the method before each is run
+  // Print out the name of the method before each is run
   // ------------------------------------------------------
   @BeforeMethod(alwaysRun = true)
   public void beforeMethod(Method method) {

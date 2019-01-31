@@ -27,6 +27,13 @@ public class ConfigReader {
       FileInputStream fis = new FileInputStream(file);
       properties = new Properties();
       properties.load(fis);
+
+      File overrides = new File("./configuration/config.override.properties");
+      if( overrides.exists()){
+        FileInputStream ois = new FileInputStream(overrides);
+        properties.load(ois);
+      }
+
       // If an environment name was specified, set it as the one to use.
       if (environment != null && !environment.isEmpty()) {
         properties.setProperty("environment.active", environment.toLowerCase());

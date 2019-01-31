@@ -14,13 +14,23 @@ This is the QA automation framework for the [CancerGov Digital Communications Pl
     - Install [Homebrew](https://brew.sh/)
     - `brew install maven`
 
+## Configuration
+Most configuration appears in `configuration/config.properties`. Values in the configuration file may be overridden locally
+via `configuration/config.override.properties` (the override file is excluded from source control). Select configuration data
+may be overridden via command line parameters.  The order of precedence is:
+
+1. Look for a value from the command line.
+2. Fallback to a value from `config.override.properties`.
+3. Fallback to the value in `config.properties`.
+
+
 ## Command line execution:
 
 To run the default test suite (all tests), execute the command
 
     mvn test
 
-### Specifying the environment
+#### Specifying the environment
 
 Hostnames are specified in the `config.properties` file, as `environment.hostname.<NAME>` (where `<NAME>` is
 the human-friendly name of the environment.) Each `environment.hostname` entry is a fully qualified hostname

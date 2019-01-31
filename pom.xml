@@ -1,5 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>CancerGovDigitalPlatform</groupId>
@@ -20,6 +20,56 @@
     <suiteFile>suites/testng-All.xml</suiteFile>
 
   </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.20</version>
+
+        <configuration>
+          <reuseForks>false</reuseForks>
+          <forkCount>1</forkCount>
+          <suiteXmlFiles>
+            <suiteXmlFile>${suiteFile}</suiteXmlFile>
+          </suiteXmlFiles>
+          <systemPropertyVariables>
+            <!-- To use a different browser, on the maven command line, specify `-Dbrowser=<browser_name>`
+
+                Valid values are:
+                  Chrome
+                  ChromeHeadless
+                  Firefox
+                  GeckoHeadless
+                  iPhone6
+                  iPad
+            -->
+            <!-- <browser>ChromeHeadless</browser> -->
+            <browser>Chrome</browser>
+            <!--
+              The web site to run against is specified as environment.active in the config.properties
+              files. To use a different environment, on the maven commmand line, specify `-Denvironment=<environment_name>`
+            -->
+            <environment></environment>
+            <debug>false</debug>
+          </systemPropertyVariables>
+        </configuration>
+
+      </plugin>
+
+      <!-- Needed to solve 'package doesn't exist' error. -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.7.0</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
   <dependencies>
     <dependency>
@@ -118,65 +168,4 @@
       <version>2.3.23</version>
     </dependency>
   </dependencies>
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.20</version>
-
-        <configuration>
-          <reuseForks>false</reuseForks>
-          <forkCount>1</forkCount>
-          <suiteXmlFiles>
-            <suiteXmlFile>${suiteFile}</suiteXmlFile>
-          </suiteXmlFiles>
-          <systemPropertyVariables>
-            <!-- To use a different browser, on the maven command line, specify
-                `-Dbrowser=<browser_name>`
-
-                Valid values are:
-                  Chrome
-                  ChromeHeadless
-                  Firefox
-                  GeckoHeadless
-                  iPhone6
-                  iPad
-            -->
-            <!-- <browser>ChromeHeadless</browser> -->
-            <browser>Chrome</browser>
-            <!--
-              To use a different environment, on the maven commmand line, specify
-              `-Denvironment=<environment_name>`
-
-              Valid values are:
-                blue
-                red
-                pink
-                qa
-                dt
-                stage
-
-              If no environment is specified, the default is QA.
-            -->
-            <environment>qa</environment>
-            <debug>false</debug>
-          </systemPropertyVariables>
-        </configuration>
-
-      </plugin>
-
-      <!-- Needed to solve 'package doesn't exist' error. -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.7.0</version>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 </project>
