@@ -55,10 +55,7 @@ public class BrowserManager {
 			System.setProperty("webdriver.chrome.driver", driverFullPath);
       System.out.println("Chrome Driver Path: " + driverFullPath);
 
-      ChromeOptions options = new ChromeOptions();
-      options.addArguments("no-sandbox");
-
-			driver = new ChromeDriver(options);
+			driver = new ChromeDriver();
 
 			driver.manage().window().maximize();
 			driver.get(url);

@@ -66,9 +66,9 @@ public class BaseClass {
     @Parameters({ "environment", "browser" })
     public void beforeClass(String environment, String browser) {
 
-        System.out.println("\n    ===========  ");
+        System.out.println("    ===========  ");
         System.out.println("    Class Name:  " + this.getClass().getSimpleName());
-        System.out.println("    ===========  \n");
+        System.out.println("    ===========  ");
 
         config = new ConfigReader(environment);
         driver = BrowserManager.startBrowser(browser, config, "about:blank");
@@ -82,8 +82,7 @@ public class BaseClass {
     @Parameters({ "browser" })
     public void beforeMethod(Method method, String browser) {
 
-        System.out.println(String.format("\nExecuting %s.%s()",
-                                            method.getDeclaringClass().getName(),
+        System.out.println(String.format("\tExecuting %s()",
                                             method.getName()));
 
         // Force the page to load fresh before each test.
