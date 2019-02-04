@@ -8,9 +8,52 @@ import java.util.Properties;
 
 import org.apache.commons.lang3.SystemUtils;
 
-/*To read the Property file*/
+
+/**
+ * Presents an interface for retieviving values stored in the config.properties file.
+ */
 public class ConfigReader {
   Properties properties;
+
+
+  /**
+   * Contains the dimensions for a responsive layout breakpoint.
+   */
+  public class Breakpoint {
+    // Width in pixels.
+    private int width;
+    // Height in pixels.
+    private int height;
+
+    /**
+     * Creates an instance of Breakpoint
+     *
+     * @param width  screen width in pixels.
+     * @param height screen height in pixels.
+     */
+    public Breakpoint(int width, int height) {
+      this.width = width;
+      this.height = height;
+    }
+
+    /**
+     * GetWidth().
+     * @return the desired width of the browser window.
+     */
+    public int GetWidth() {
+      return this.width;
+    }
+
+    /**
+     * GetHeight().
+     *
+     * @return the desired height of the browser window.
+     */
+    public int GetHeight() {
+      return this.height;
+    }
+  }
+
 
   /**
    * Constructor.
@@ -44,10 +87,66 @@ public class ConfigReader {
     }
   }
 
+  /**
+   * GetHostName()
+   *
+   * Reads the environment.hostname.* properties to determine the host name to use
+   * when retrieving pages for testing. The value returned is affected by
+   *
+   * environment.hostname.active from config.properties file.
+   * environment.hostname.active from config.override.properties file.
+   * Command line environment property definition.
+   *
+   * @return String containing the host name pages should be loaded from.
+   */
   public String GetHostName() {
     String key = "environment.hostname." + properties.getProperty("environment.active");
     return properties.getProperty(key);
   }
+
+  /**
+   * Retrieves the dimensions for the small responsive layout.
+   *
+   * @return Breakpoint object containing the width and height.
+   */
+  public Breakpoint GetSmallBreakpoint() {
+    return GetBreakpoint("layout.screensize.small");
+  }
+
+  /**
+   * Retrieves the dimensions for the medium responsive layout.
+   *
+   * @return Breakpoint object containing the width and height.
+   */
+  public Breakpoint GetMediumBreakpoint() {
+    return GetBreakpoint("layout.screensize.medium");
+  }
+
+  /**
+   * Retrieves the dimensions for the large responsive layout.
+   *
+   * @return Breakpoint object containing the width and height.
+   */
+  public Breakpoint GetLargeBreakpoint() {
+    return GetBreakpoint("layout.screensize.large");
+  }
+
+  /**
+   * Retrieves the dimensions for the extra-large responsive layout.
+   *
+   * @return Breakpoint object containing the width and height.
+   */
+  public Breakpoint GetXLargeBreakpoint() {
+    return GetBreakpoint("layout.screensize.xlarge");
+  }
+
+  private Breakpoint GetBreakpoint(String sizeKey) {
+    int width  = Integer.parseInt(properties.getProperty(sizeKey + ".width"));
+    int height = Integer.parseInt(properties.getProperty(sizeKey + ".height"));
+
+    return new Breakpoint(width, height);
+  }
+
 
   /**
    * Retrieves the identified URL from the configuration file and returns a
