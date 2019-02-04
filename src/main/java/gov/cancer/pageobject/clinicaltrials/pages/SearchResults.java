@@ -11,9 +11,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 
-import gov.cancer.pageobject.clinicaltrials.common.Checkbox;
 import gov.cancer.pageobject.clinicaltrials.common.CriteriaList;
-import gov.cancer.pageobject.commonobjects.Pager;
 import gov.cancer.framework.ElementChange;
 
 /**
@@ -43,7 +41,6 @@ public class SearchResults extends ClinicalTrialPageObjectBase {
   @FindBy(how = How.CSS, using = ".cts-results-container")
   WebElement resultsArea;
 
-  private Pager pagerControl;
 
   public SearchResults(WebDriver browser) throws MalformedURLException, UnsupportedEncodingException {
     this(browser, null);
@@ -96,7 +93,6 @@ public class SearchResults extends ClinicalTrialPageObjectBase {
     super(browser, decorator);
     PageFactory.initElements(browser, this);
 
-    pagerControl = new Pager(browser);
   }
 
   public String getResultsCountText() {
@@ -111,17 +107,6 @@ public class SearchResults extends ClinicalTrialPageObjectBase {
     return resultsArea.isDisplayed();
   }
 
-  public Pager getPager() {
-    return pagerControl;
-  }
-
-  public Checkbox getUpperSelectAll() {
-    throw new RuntimeException("Not Implmented");
-  }
-
-  public Checkbox getLowerSelectAll() {
-    throw new RuntimeException("Not Implmented");
-  }
 
   @FindBy(how = How.XPATH, using = ".//div[@class='cts-checkbox checkbox']")
   List<WebElement> check_SearchTrials;

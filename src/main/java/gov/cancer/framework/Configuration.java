@@ -12,7 +12,7 @@ import org.apache.commons.lang3.SystemUtils;
 /**
  * Presents an interface for retieviving values stored in the config.properties file.
  */
-public class ConfigReader {
+public class Configuration {
   Properties properties;
 
 
@@ -63,7 +63,7 @@ public class ConfigReader {
    *                    string.
    *
    */
-  public ConfigReader(String environment) {
+  public Configuration(String environment) {
     try {
       // Load configuration properties.
       File file = new File("./configuration/config.properties");

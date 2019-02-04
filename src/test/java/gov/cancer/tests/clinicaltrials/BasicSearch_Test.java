@@ -3,9 +3,6 @@ package gov.cancer.tests.clinicaltrials;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
@@ -19,9 +16,9 @@ import gov.cancer.pageobject.clinicaltrials.pages.BasicSearch;
 import gov.cancer.pageobject.clinicaltrials.pages.SearchResults;
 import gov.cancer.pageobject.clinicaltrials.pages.SuppressChatPromptPageObject;
 import gov.cancer.framework.ParsedURL;
-import gov.cancer.tests.BaseClass;
+import gov.cancer.tests.TestObjectBase;
 
-public class BasicSearch_Test extends BaseClass {
+public class BasicSearch_Test extends TestObjectBase {
 
   private static final String KEYWORD_PARAM = "q";
   private static final String CANCERTYPE_PARAM = "t";

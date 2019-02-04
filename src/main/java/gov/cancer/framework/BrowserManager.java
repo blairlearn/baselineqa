@@ -26,7 +26,7 @@ public class BrowserManager {
    * @param driver
    * @return String driverPath
    */
-  private static String getDriverPath(ConfigReader config, String driver) {
+  private static String getDriverPath(Configuration config, String driver) {
     // Get the base path for the OS
     String driverPath = config.getDriverBasePath();
 
@@ -47,7 +47,7 @@ public class BrowserManager {
    * @param url         URL to open
    * @return WebDriver driver
    */
-  public static WebDriver startBrowser(String browserName, ConfigReader config, String url) {
+  public static WebDriver startBrowser(String browserName, Configuration config, String url) {
 
     if (browserName.equalsIgnoreCase("Chrome")) {
       System.out.println("");
@@ -148,7 +148,7 @@ public class BrowserManager {
    * @return WebDriver driver TODO: create headless Chrome driver TODO: reuse
    *         startBrowser where possible
    */
-  public static WebDriver startProxyBrowser(String browserName, ConfigReader config, String url, BrowserMobProxy bmp) {
+  public static WebDriver startProxyBrowser(String browserName, Configuration config, String url, BrowserMobProxy bmp) {
 
     ChromeOptions chromeOptions = new ChromeOptions();
     FirefoxOptions firefoxOptions = new FirefoxOptions();

@@ -3,43 +3,38 @@ package gov.cancer.tests;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
-import org.testng.annotations.AfterSuite;
 import org.testng.annotations.Parameters;
 
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 
-import gov.cancer.framework.ConfigReader;
+import gov.cancer.framework.Configuration;
 import gov.cancer.framework.ScreenShot;
 import gov.cancer.framework.BrowserManager;
 
-public abstract class BaseClass {
+public abstract class TestObjectBase {
 
   // private static Logger log=
   // LogManager.getLogger(BaseClass.class.getName());
   protected static ExtentReports report;
   protected static ExtentTest logger;
   protected WebDriver driver;
-  protected ConfigReader config;
+  protected Configuration config;
 
   @BeforeTest(alwaysRun = true)
   @Parameters({ "environment" })
   public void beforeTest(String environment) {
 
-    config = new ConfigReader(environment);
+    config = new Configuration(environment);
 
     String dateTime = new SimpleDateFormat("yyyy-MM-dd HH-mm-SS").format(new Date());
     String extentReportPath = config.getExtentReportPath();
@@ -56,7 +51,7 @@ public abstract class BaseClass {
   @Parameters({ "environment", "browser" })
   public void beforeClass(String environment, String browser) {
 
-    config = new ConfigReader(environment);
+    config = new Configuration(environment);
     driver = BrowserManager.startBrowser(browser, config, "about:blank");
 
     logger = report.startTest(this.getClass().getSimpleName());
