@@ -4,7 +4,6 @@ import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
@@ -19,22 +18,33 @@ import com.relevantcodes.extentreports.LogStatus;
 
 import gov.cancer.framework.Configuration;
 import gov.cancer.framework.ScreenShot;
-import gov.cancer.framework.BrowserManager;
 
 public abstract class TestObjectBase {
 
   // private static Logger log=
   // LogManager.getLogger(BaseClass.class.getName());
-  protected static ExtentReports report;
-  protected static ExtentTest logger;
-  protected WebDriver driver;
-  protected Configuration config;
+  private static ExtentReports report;
+  private static ExtentTest logger;
+  private Configuration config;
+
+  public TestObjectBase() {
+    this.config = new Configuration();
+  }
+
+  /**
+   * @return the config
+   * @deprecated Does this really need to be exposed?  Shouldn't it be possible
+   * to push configuration down to this class?
+   */
+  @Deprecated
+  protected Configuration getConfig() {
+    return config;
+  }
 
   @BeforeTest(alwaysRun = true)
-  @Parameters({ "environment" })
-  public void beforeTest(String environment) {
+  public void beforeTest() {
 
-    config = new Configuration(environment);
+    String environment = config.getEnvironmentName();
 
     String dateTime = new SimpleDateFormat("yyyy-MM-dd HH-mm-SS").format(new Date());
     String extentReportPath = config.getExtentReportPath();
@@ -48,11 +58,7 @@ public abstract class TestObjectBase {
   // Printing location of log file and environment variables
   // -------------------------------------------------------
   @BeforeClass(alwaysRun = true)
-  @Parameters({ "environment", "browser" })
-  public void beforeClass(String environment, String browser) {
-
-    config = new Configuration(environment);
-    driver = BrowserManager.startBrowser(browser, config, "about:blank");
+  public void beforeClass() {
 
     logger = report.startTest(this.getClass().getSimpleName());
     System.out.println("\n  Running test: " + this.getClass().getSimpleName());
@@ -71,10 +77,12 @@ public abstract class TestObjectBase {
   @AfterMethod(alwaysRun = true)
   public void tearDown(ITestResult result) throws InterruptedException {
     if (result.getStatus() == ITestResult.FAILURE) {
-      String screenshotPath = ScreenShot.captureScreenshot(driver, result.getName());
-      String image = logger.addScreenCapture(screenshotPath);
 
-      logger.log(LogStatus.FAIL, image + "Fail => " + result.getName());
+      // TODO: move capture screenshot to the page object
+      //String screenshotPath = ScreenShot.captureScreenshot(driver, result.getName());
+      //String image = logger.addScreenCapture(screenshotPath);
+
+      //logger.log(LogStatus.FAIL, image + "Fail => " + result.getName());
     } else if (result.getStatus() == ITestResult.SKIP) {
       logger.log(LogStatus.SKIP, "Skipped => " + result.getName());
     } else {
@@ -85,16 +93,7 @@ public abstract class TestObjectBase {
 
   @AfterClass(alwaysRun = true)
   public void afterClass() {
-    driver.quit();
     report.endTest(logger);
   }
 
-  // Returns the URL for the host currently used for testing
-  // -------------------------------------------------------
-  public String AddHostname(String path) {
-    String host;
-
-    host = config.GetHostName();
-    return "https://" + host + path;
-  }
 }

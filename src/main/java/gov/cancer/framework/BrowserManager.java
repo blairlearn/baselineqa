@@ -19,8 +19,6 @@ import org.openqa.selenium.WebDriver;
 
 public class BrowserManager {
 
-  static WebDriver driver;
-
   /**
    * @param config
    * @param driver
@@ -47,9 +45,15 @@ public class BrowserManager {
    * @param url         URL to open
    * @return WebDriver driver
    */
-  public static WebDriver startBrowser(String browserName, Configuration config, String url) {
+  public static WebDriver GetBrowser() {
 
-    if (browserName.equalsIgnoreCase("Chrome")) {
+    Configuration config = new Configuration();
+    String browserName = config.getBrowser();
+
+
+    WebDriver driver = null;
+
+    if (browserName.equalsIgnoreCase("chrome")) {
       System.out.println("");
 
       String driverFullPath = getDriverPath(config, "ChromeDriver");
@@ -59,21 +63,19 @@ public class BrowserManager {
       driver = new ChromeDriver();
 
       driver.manage().window().maximize();
-      driver.get(url);
     }
 
-    else if (browserName.equalsIgnoreCase("Firefox")) {
+    else if (browserName.equalsIgnoreCase("firefox")) {
       String driverFullPath = getDriverPath(config, "FirefoxDriver");
 
       System.setProperty("webdriver.gecko.driver", driverFullPath);
       System.out.println("Firefox Driver Path: " + driverFullPath);
       driver = new FirefoxDriver();
       driver.manage().window().maximize();
-      driver.get(url);
     }
 
     /* Headless Chrome */
-    else if (browserName.equalsIgnoreCase("ChromeHeadless")) {
+    else if (browserName.equalsIgnoreCase("chromeheadless")) {
       System.out.println("chrome headless");
 
       String driverFullPath = getDriverPath(config, "ChromeDriver");
@@ -84,11 +86,10 @@ public class BrowserManager {
       options.addArguments("window-size=1200x600"); // Testing large screens: Breakpoint 1024px
       driver = new ChromeDriver(options);
       driver.manage().window().maximize();
-      driver.get(url);
     }
 
     /* Headless Firefox */
-    else if (browserName.equalsIgnoreCase("FirefoxHeadless")) {
+    else if (browserName.equalsIgnoreCase("firefoxheadless")) {
       System.out.println("Firefox headless");
       FirefoxBinary firefoxBinary = new FirefoxBinary();
       firefoxBinary.addCommandLineOptions("--headless");
@@ -100,10 +101,9 @@ public class BrowserManager {
       driver = new FirefoxDriver(firefoxOptions);
 
       driver.manage().window().maximize();
-      driver.get(url);
     }
 
-    else if (browserName.equalsIgnoreCase("iPhone6")) {
+    else if (browserName.equalsIgnoreCase("iphone6")) {
 
       System.setProperty("webdriver.chrome.driver", getDriverPath(config, "ChromeDriver"));
       Map<String, Object> mobileEmulation = new HashMap<>();
@@ -113,23 +113,20 @@ public class BrowserManager {
       driver = new ChromeDriver(chromeOptions);
       System.out.println("Chrome driver instance created");
       System.out.println("==============================");
-      driver.get(url);
     }
 
-    else if (browserName.equalsIgnoreCase("iPad")) {
+    else if (browserName.equalsIgnoreCase("ipad")) {
 
       System.setProperty("webdriver.chrome.driver", getDriverPath(config, "ChromeDriver"));
       Map<String, Object> mobileEmulation = new HashMap<>();
       mobileEmulation.put("deviceName", "iPad");
-      Map<String, Object> chromeOptions = new HashMap<>();
-      chromeOptions.put("mobileEmulation", mobileEmulation);
-      DesiredCapabilities capabilities = DesiredCapabilities.chrome();
-      capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
-      driver = new ChromeDriver(capabilities);
+
+      ChromeOptions chromeOptions = new ChromeOptions();
+      chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
+
+      driver = new ChromeDriver(chromeOptions);
       System.out.println("Chrome driver instance created");
       System.out.println("==============================");
-      driver.get(url);
-
     }
 
     // Allow up to a one second delay for elements to become available.
@@ -148,7 +145,9 @@ public class BrowserManager {
    * @return WebDriver driver TODO: create headless Chrome driver TODO: reuse
    *         startBrowser where possible
    */
-  public static WebDriver startProxyBrowser(String browserName, Configuration config, String url, BrowserMobProxy bmp) {
+  public static WebDriver GetProxyBrowser(String browserName, Configuration config, String url, BrowserMobProxy bmp) {
+
+    WebDriver driver = null;
 
     ChromeOptions chromeOptions = new ChromeOptions();
     FirefoxOptions firefoxOptions = new FirefoxOptions();

@@ -25,23 +25,25 @@ public class ParsedURL {
    * Creates a ParsedURL object from its String representation.
    *
    * @param url - the String to parse as a URL.
-   * @throws MalformedURLException
-   * @throws UnsupportedEncodingException
    */
-  public ParsedURL(String url) throws MalformedURLException, UnsupportedEncodingException {
+  public ParsedURL(String url) {
 
-    innerUrl = new URL(url);
+    try {
+      innerUrl = new URL(url);
 
-    String query = innerUrl.getQuery();
-    if (query != null) {
-      String[] pairs = query.split("&");
-      for (String pair : pairs) {
-        int idx = pair.indexOf("=");
+      String query = innerUrl.getQuery();
+      if (query != null) {
+        String[] pairs = query.split("&");
+        for (String pair : pairs) {
+          int idx = pair.indexOf("=");
 
-        String parameter = URLDecoder.decode(pair.substring(0, idx), "UTF-8");
-        String value = URLDecoder.decode(pair.substring(idx + 1), "UTF-8");
-        queryPairs.put(parameter, value);
+          String parameter = URLDecoder.decode(pair.substring(0, idx), "UTF-8");
+          String value = URLDecoder.decode(pair.substring(idx + 1), "UTF-8");
+          queryPairs.put(parameter, value);
+        }
       }
+    } catch (Exception e) {
+      throw new RuntimeException(String.format("Bad URL '{%s}'.", url));
     }
   }
 

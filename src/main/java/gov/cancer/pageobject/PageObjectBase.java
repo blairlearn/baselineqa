@@ -4,12 +4,13 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
 import gov.cancer.framework.ParsedURL;
+import gov.cancer.framework.BrowserManager;
+import gov.cancer.framework.Configuration;
 
 /**
  * This is the root base class for all page objects. If a page object class
@@ -25,9 +26,11 @@ import gov.cancer.framework.ParsedURL;
 public abstract class PageObjectBase {
 
   WebDriver browser;
+  Configuration config = new Configuration();
 
   // Allow for a 20 second delay. Because network delays can be insane.
   static final int MAX_PAGE_LOAD_DELAY = 20;
+
 
   /**
    * Interface for passing actions which will cause the page to change. Used with
@@ -40,23 +43,67 @@ public abstract class PageObjectBase {
   }
 
   /**
-   * Construtor
+   * Constructor
    *
-   * @param browser An instance of WebDriver representing the browser at the time
-   *                the constructor is fired.
    */
-  public PageObjectBase(WebDriver browser) throws MalformedURLException, UnsupportedEncodingException {
-    this.browser = browser;
-    pageUrl = new ParsedURL(browser.getCurrentUrl());
-    pageTitle = browser.getTitle().trim();
+  public PageObjectBase(String path) {
+    String fullUrl = MakeUrl(path);
+
+    browser = BrowserManager.GetBrowser();
+    browser.get(fullUrl);
+    PageFactory.initElements(this.getBrowser(), this);
+  }
+
+  /**
+   * Default constructor. This is not used, but allows subclasses to exist without
+   * a default constructor.
+   */
+  protected PageObjectBase() {
+
+  }
+
+  /**
+   * Set up a version of the IDisposable pattern, but following Java conventions;
+   * mainly naming it close() instead of Dispose(). For more, see
+   * https://docs.microsoft.com/en-us/dotnet/api/system.idisposable?view=netframework-4.7.2
+   */
+  private boolean closed = false;
+
+  public final void close(){
+    close(true);
+  }
+
+  protected void close(boolean closing) {
+    if(!this.closed) {
+      if(closing) {
+        // Clean up of additional disposable objects would go here.
+      }
+
+      // Close the browser window.
+      browser.close();
+
+      this.closed = true;
+    }
+
+  }
+
+  /**
+   * Finalizer. Don't rely on this getting called, make sure you
+   * call close() instead to make sure things get cleaned up.
+   */
+  @Override
+  protected void finalize() throws Throwable {
+    try {
+      close(false);
+    } finally {
+      super.finalize();
+    }
   }
 
   protected WebDriver getBrowser() {
     return this.browser;
   }
 
-  private ParsedURL pageUrl;
-  private String pageTitle;
 
   /**
    * Gets a URL object representing the current page's URL.
@@ -67,7 +114,7 @@ public abstract class PageObjectBase {
    * @throws MalformedURLException
    */
   public ParsedURL getPageUrl() {
-    return pageUrl;
+    return new ParsedURL(this.browser.getCurrentUrl());
   }
 
   /**
@@ -77,17 +124,9 @@ public abstract class PageObjectBase {
    *         object was created.
    */
   public String getPageTitle() {
-    return pageTitle;
+    return browser.getTitle().trim();
   }
 
-  /**
-   * Sets the current page's title.
-   *
-   * @param pageTitle
-   */
-  public void setPageTitle(String pageTitle) {
-    this.pageTitle = pageTitle;
-  }
 
   /**
    * Performs an action which causes navigation, resulting in the browser moving
@@ -127,10 +166,21 @@ public abstract class PageObjectBase {
   }
 
   /**
-   * Getter for the WebDriver instance.
+   * Turns a file path into a URL for the configured test environment.
+   *
+   * @param path The file path, and optional querystring, of a page URL.
+   * @return String containing a fully qualified URL.
    */
-  protected WebDriver GetBrowserInstance() {
-    return this.browser;
-  }
+  private String MakeUrl(String path) {
 
+    String host = config.getHostName();
+    String url;
+
+    if(path.startsWith("/"))
+      url = host + path;
+    else
+      url = host + "/" + path;
+
+    return url;
+  }
 }

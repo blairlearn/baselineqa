@@ -17,7 +17,7 @@
       Set up the default test suite to run if one isn't specified from mvn command line.
       (override with "-Dsurefire.suiteXmlFiles=<testfile>", specifying a path if needed.)
     -->
-    <suiteFile>suites/testng-All.xml</suiteFile>
+    <suiteFile>suites/_all.xml</suiteFile>
 
   </properties>
 
@@ -47,11 +47,6 @@
             -->
             <!-- <browser>ChromeHeadless</browser> -->
             <browser>Chrome</browser>
-            <!--
-              The web site to run against is specified as environment.active in the config.properties
-              files. To use a different environment, on the maven commmand line, specify `-Denvironment=<environment_name>`
-            -->
-            <environment></environment>
             <debug>false</debug>
           </systemPropertyVariables>
         </configuration>

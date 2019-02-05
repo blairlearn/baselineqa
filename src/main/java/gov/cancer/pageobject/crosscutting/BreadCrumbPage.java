@@ -1,10 +1,10 @@
-package gov.cancer.pageobject.commonobjects;
+package gov.cancer.pageobject.crosscutting;
 
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
-import org.openqa.selenium.support.PageFactory;
+
+import gov.cancer.pageobject.PageObjectBase;
 
 /**
  * Pseudo page object representing any page in the system. The BreadCrumb class
@@ -12,7 +12,8 @@ import org.openqa.selenium.support.PageFactory;
  * <p>
  * The page to be tested is assumed to have been loaded prior to instantiation.
  */
-public class BreadCrumb {
+public class BreadCrumbPage extends PageObjectBase {
+
 
   @FindBy(how = How.CSS, using = ".breadcrumbs")
   WebElement breadCrumb;
@@ -22,8 +23,12 @@ public class BreadCrumb {
    *
    * @param driver WebDriver instance representing the browser.
    */
-  public BreadCrumb(WebDriver driver) {
-    PageFactory.initElements(driver, this);
+  public BreadCrumbPage(String path) {
+    super(path);
+  }
+
+  public boolean isBreadCrumbVisible() {
+    return breadCrumb.isDisplayed();
   }
 
   /**

@@ -1,11 +1,8 @@
-package gov.cancer.pageobject.commonobjects;
+package gov.cancer.pageobject.crosscutting;
 
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 
@@ -13,11 +10,11 @@ import gov.cancer.pageobject.PageObjectBase;
 
 public class PageOptions extends PageObjectBase {
 
-  public PageOptions(WebDriver browser) throws MalformedURLException, UnsupportedEncodingException {
-    super(browser);
-    // pageOptionsControl = null;
-    PageFactory.initElements(browser, this);
-  }
+  // public PageOptions() {
+  //   super("");
+  //   // pageOptionsControl = null;
+  //   PageFactory.initElements(this.getBrowser(), this);
+  // }
 
   /*
    * Testing if the PageOptionsControl exists on page and is visible

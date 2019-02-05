@@ -57,13 +57,8 @@ public class Configuration {
 
   /**
    * Constructor.
-   *
-   * @param environment String containing the environment name. Valid values are:
-   *                    qa dt blue red pink stage For production, pass the empty
-   *                    string.
-   *
    */
-  public Configuration(String environment) {
+  public Configuration() {
     try {
       // Load configuration properties.
       File file = new File("./configuration/config.properties");
@@ -75,11 +70,6 @@ public class Configuration {
       if( overrides.exists()){
         FileInputStream ois = new FileInputStream(overrides);
         properties.load(ois);
-      }
-
-      // If an environment name was specified, set it as the one to use.
-      if (environment != null && !environment.isEmpty()) {
-        properties.setProperty("environment.active", environment.toLowerCase());
       }
 
     } catch (Exception e) {
@@ -99,9 +89,18 @@ public class Configuration {
    *
    * @return String containing the host name pages should be loaded from.
    */
-  public String GetHostName() {
+  public String getHostName() {
     String key = "environment.hostname." + properties.getProperty("environment.active");
     return properties.getProperty(key);
+  }
+
+  /**
+   * getEnvironmentName()
+   *
+   * @return a String containing the name of the environment being tested.
+   */
+  public String getEnvironmentName(){
+    return properties.getProperty("environment.active");
   }
 
   /**
@@ -109,8 +108,8 @@ public class Configuration {
    *
    * @return Breakpoint object containing the width and height.
    */
-  public Breakpoint GetSmallBreakpoint() {
-    return GetBreakpoint("layout.screensize.small");
+  public Breakpoint getSmallBreakpoint() {
+    return getBreakpoint("layout.screensize.small");
   }
 
   /**
@@ -118,8 +117,8 @@ public class Configuration {
    *
    * @return Breakpoint object containing the width and height.
    */
-  public Breakpoint GetMediumBreakpoint() {
-    return GetBreakpoint("layout.screensize.medium");
+  public Breakpoint getMediumBreakpoint() {
+    return getBreakpoint("layout.screensize.medium");
   }
 
   /**
@@ -127,8 +126,8 @@ public class Configuration {
    *
    * @return Breakpoint object containing the width and height.
    */
-  public Breakpoint GetLargeBreakpoint() {
-    return GetBreakpoint("layout.screensize.large");
+  public Breakpoint getLargeBreakpoint() {
+    return getBreakpoint("layout.screensize.large");
   }
 
   /**
@@ -136,17 +135,29 @@ public class Configuration {
    *
    * @return Breakpoint object containing the width and height.
    */
-  public Breakpoint GetXLargeBreakpoint() {
-    return GetBreakpoint("layout.screensize.xlarge");
+  public Breakpoint getXLargeBreakpoint() {
+    return getBreakpoint("layout.screensize.xlarge");
   }
 
-  private Breakpoint GetBreakpoint(String sizeKey) {
+  private Breakpoint getBreakpoint(String sizeKey) {
     int width  = Integer.parseInt(properties.getProperty(sizeKey + ".width"));
     int height = Integer.parseInt(properties.getProperty(sizeKey + ".height"));
 
     return new Breakpoint(width, height);
   }
 
+  /**
+   * Returns the configured browser string.
+   *
+   * @return String containing one of the supported web browsers
+   */
+  public String getBrowser() {
+    String browser = properties.getProperty("browser.active");
+    if(browser != null)
+      browser = browser.trim().toLowerCase();
+
+    return browser;
+  }
 
   /**
    * Retrieves the identified URL from the configuration file and returns a
@@ -159,7 +170,7 @@ public class Configuration {
     String configUrl = properties.getProperty(pageURL);
     try {
       URL oldUrl = new URL(configUrl);
-      URL modifiedURl = new URL(oldUrl.getProtocol(), GetHostName(), oldUrl.getFile());
+      URL modifiedURl = new URL(oldUrl.getProtocol(), getHostName(), oldUrl.getFile());
       return modifiedURl.toString();
     } catch (MalformedURLException e) {
       throw new RuntimeException(
