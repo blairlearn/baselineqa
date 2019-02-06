@@ -16,10 +16,10 @@ import gov.cancer.tests.TestObjectBase;
  */
 public class BreadCrumb_Test extends TestObjectBase {
 
-  @Test
-  public void breadcrumbIsVisible(){
+  @Test(dataProvider = "BreadCrumbData")
+  public void breadcrumbIsVisible(String path){
 
-    BreadCrumbPage page = new BreadCrumbPage("about-cancer/coping/feelings");
+    BreadCrumbPage page = new BreadCrumbPage(path);
 
     try {
       Assert.assertTrue(page.isBreadCrumbVisible(), "Bread crumb is visible.");
@@ -29,5 +29,27 @@ public class BreadCrumb_Test extends TestObjectBase {
     }
   }
 
+  /**
+   * TODO: Make loading data generic.
+   * @return
+   */
+  @DataProvider(name = "BreadCrumbData")
+  public Iterator<Object> BreadCrumbDataLoader() {
+
+    ExcelManager excelReader = new ExcelManager("./test-data/BreadCrumbData.xlsx");
+
+    ArrayList<Object> objects = new ArrayList<Object>();
+    int rowCount = excelReader.getRowCount("SimplePageList");
+    int colCount = excelReader.getColumnCount("SimplePageList");
+    for(int rowNum = 2; rowNum <= rowCount; ++rowNum){
+      for(int colNum = 1; colNum <= colCount; ++colNum){
+        String data = excelReader.getCellData("SimplePageList", colNum, rowNum);
+        Object ob[] = { data };
+        objects.add(ob);
+      }
+    }
+
+    return objects.iterator();
+  }
 
 }
