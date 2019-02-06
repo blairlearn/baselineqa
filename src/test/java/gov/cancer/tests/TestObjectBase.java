@@ -32,20 +32,6 @@ public abstract class TestObjectBase {
     this.config = new Configuration();
   }
 
-  public interface ITestAction {
-    void test();
-  }
-
-  protected <T extends PageObjectBase> void PerformTest(T page, ITestAction action) {
-    try {
-      action.test();
-    }
-    finally{
-      page.close();
-    }
-  }
-
-
   /**
    * @return the config
    * @deprecated Does this really need to be exposed?  Shouldn't it be possible
