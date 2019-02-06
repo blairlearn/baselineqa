@@ -120,22 +120,24 @@ public class ExcelManager {
 
   @SuppressWarnings("deprecation")
   public String getCellData(String sheetName, int colNum, int rowNum) {
-    String colName = "Freddy";
+
     try {
       if (rowNum <= 0)
         return "";
 
       if(colNum < 1)
         return "";
-      else
-        colNum--;
+
+      // Adjust to zero-based indexes.
+      int accessRowNum = rowNum -1;
+      int accessColNum = colNum - 1;
 
       int index = workbook.getSheetIndex(sheetName);
       sheet = workbook.getSheetAt(index);
-      row = sheet.getRow(rowNum - 1);
+      row = sheet.getRow(accessRowNum);
       if (row == null)
         return "";
-      cell = row.getCell(colNum);
+      cell = row.getCell(accessColNum);
 
       if (cell == null)
         return "";
@@ -166,7 +168,7 @@ public class ExcelManager {
     } catch (Exception e) {
 
       e.printStackTrace();
-      return "row " + rowNum + " or column " + colName + " does not exist in xls";
+      return "row " + rowNum + " or column " + colNum + " does not exist in xls";
     }
   }
 
