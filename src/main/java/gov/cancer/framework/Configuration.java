@@ -94,6 +94,10 @@ public class Configuration {
     return properties.getProperty(key);
   }
 
+  public String getDataFileBasePath(){
+    return properties.getProperty("filepath.testdatabase");
+  }
+
   /**
    * getEnvironmentName()
    *

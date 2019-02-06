@@ -21,6 +21,10 @@ public class ExcelManager {
   private XSSFRow row = null;
   private XSSFCell cell = null;
 
+  public static ExcelManager create(String path){
+    return new ExcelManager(path);
+  }
+
   public ExcelManager(String path) {
     this.path = path;
     try {

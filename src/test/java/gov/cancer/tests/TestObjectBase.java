@@ -32,6 +32,10 @@ public abstract class TestObjectBase {
     this.config = new Configuration();
   }
 
+  protected String getDataFilePath(String filename) {
+    return (config.getDataFileBasePath() + System.getProperty("file.separator") + filename);
+  }
+
   /**
    * @return the config
    * @deprecated Does this really need to be exposed?  Shouldn't it be possible

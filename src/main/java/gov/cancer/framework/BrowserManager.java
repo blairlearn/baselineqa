@@ -54,8 +54,8 @@ public class BrowserManager {
 
     WebDriver driver = null;
 
-    // Turn off Selenium logging for all browsers.
-    // This should likely be in a config file, but for now...
+    // Turn off Selenium noise logging for all browsers.
+    // This should really be in a config file, but for now...
     java.util.logging.Logger.getLogger("org.openqa.selenium").setLevel(java.util.logging.Level.OFF);
 
     if (browserName.equalsIgnoreCase("chrome")) {
@@ -159,7 +159,7 @@ public class BrowserManager {
     DesiredCapabilities capabilities = new DesiredCapabilities();
 
     // Turn off Selenium logging for all browsers.
-    // This should likely be in a config file, but for now...
+    // This should really be in a config file, but for now...
     java.util.logging.Logger.getLogger("org.openqa.selenium").setLevel(java.util.logging.Level.OFF);
 
     if (browserName.equalsIgnoreCase("Chrome")) {

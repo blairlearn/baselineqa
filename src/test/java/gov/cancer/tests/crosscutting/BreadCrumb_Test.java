@@ -17,10 +17,10 @@ import gov.cancer.tests.TestRunner;
  */
 public class BreadCrumb_Test extends TestObjectBase {
 
-  @Test(dataProvider = "BreadCrumbData")
+  @Test(dataProvider = "getBreadCrumbPaths")
   public void breadcrumbIsVisible(String path){
 
-    TestRunner.PerformTest(BreadCrumbPage.class, path, (BreadCrumbPage page)->{
+    TestRunner.run(BreadCrumbPage.class, path, (BreadCrumbPage page)->{
 
       Assert.assertTrue(page.isBreadCrumbVisible(), "Bread crumb is visible.");
 
@@ -28,24 +28,72 @@ public class BreadCrumb_Test extends TestObjectBase {
 
   }
 
-  /**
-   * TODO: Make loading data generic.
-   * @return
-   */
-  @DataProvider(name = "BreadCrumbData")
-  public Iterator<Object> BreadCrumbDataLoader() {
 
-    ExcelManager excelReader = new ExcelManager("./test-data/BreadCrumbData.xlsx");
+  /**
+   * Retrieves a list of paths to pages which are expected to have breadcrumbs.
+   *
+   * @return An iterable list of single element arrays, each containing a single
+   * path.
+   */
+  @DataProvider(name = "getBreadCrumbPaths")
+  public Iterator<Object> getBreadCrumbPaths(){
+
+    Iterator<Object> raw = loadBreadCrumbData();
+    ArrayList<Object> processed = new ArrayList<Object>();
+
+    /**
+     * Converts from
+     * [
+     *    [path, type, whatever],
+     *    [path, type, whatever],
+     *      :
+     * ]
+     *
+     * to
+     *
+     * [
+     *    [path],
+     *    [path],
+     *      :
+     * ]
+     */
+
+    raw.forEachRemaining(item -> {
+      Object path = ((Object[])item)[0];
+      processed.add(new Object[]{path});
+    });
+
+    return processed.iterator();
+  }
+
+
+  /**
+   * Single point of code for retriving bread crumb data from
+   * the bread crumb data file.  This method retrieves all the
+   * data from the SimplePageList sheet.
+   *
+   *   [
+   *      [path, type, whatever],
+   *      [path, type, whatever],
+   *        :
+   *   ]
+   *
+   * @return An iterable collection of data arrays.
+   */
+  private Iterator<Object> loadBreadCrumbData() {
+
+    ExcelManager excelReader = ExcelManager.create(getDataFilePath("BreadCrumbData.xlsx"));
+
+    String SHEET = "SimplePageList";
 
     ArrayList<Object> objects = new ArrayList<Object>();
-    int rowCount = excelReader.getRowCount("SimplePageList");
-    int colCount = excelReader.getColumnCount("SimplePageList");
+    int rowCount = excelReader.getRowCount(SHEET);
     for(int rowNum = 2; rowNum <= rowCount; ++rowNum){
-      for(int colNum = 1; colNum <= colCount; ++colNum){
-        String data = excelReader.getCellData("SimplePageList", colNum, rowNum);
-        Object ob[] = { data };
-        objects.add(ob);
-      }
+      String path = excelReader.getCellData(SHEET, "path", rowNum);
+      String pageType = excelReader.getCellData("SimplePageList", "type", rowNum);
+
+      Object[] row = {path, pageType};
+      objects.add(row);
     }
 
     return objects.iterator();

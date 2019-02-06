@@ -38,7 +38,7 @@ public class TestRunner<T extends PageObjectBase> {
    * @param callback            Callback method containing the tests to be
    *                            executed.
    */
-  public static <T extends PageObjectBase> void PerformTest(Class<T> classImplementation, String path, ITestAction<T> callback) {
+  public static <T extends PageObjectBase> void run(Class<T> classImplementation, String path, ITestAction<T> callback) {
 
     try {
       /**
