@@ -8,6 +8,7 @@ import net.lightbody.bmp.client.ClientUtil;
 import org.apache.commons.lang3.SystemUtils;
 
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -53,12 +54,16 @@ public class BrowserManager {
 
     WebDriver driver = null;
 
+    // Turn off Selenium logging for all browsers.
+    // This should likely be in a config file, but for now...
+    java.util.logging.Logger.getLogger("org.openqa.selenium").setLevel(java.util.logging.Level.OFF);
+
     if (browserName.equalsIgnoreCase("chrome")) {
-      System.out.println("");
 
       String driverFullPath = getDriverPath(config, "ChromeDriver");
       System.setProperty("webdriver.chrome.driver", driverFullPath);
-      System.out.println("Chrome Driver Path: " + driverFullPath);
+
+      System.setProperty(ChromeDriverService.CHROME_DRIVER_SILENT_OUTPUT_PROPERTY, "true");
 
       driver = new ChromeDriver();
 
@@ -69,18 +74,17 @@ public class BrowserManager {
       String driverFullPath = getDriverPath(config, "FirefoxDriver");
 
       System.setProperty("webdriver.gecko.driver", driverFullPath);
-      System.out.println("Firefox Driver Path: " + driverFullPath);
       driver = new FirefoxDriver();
       driver.manage().window().maximize();
     }
 
     /* Headless Chrome */
     else if (browserName.equalsIgnoreCase("chromeheadless")) {
-      System.out.println("chrome headless");
 
       String driverFullPath = getDriverPath(config, "ChromeDriver");
       System.setProperty("webdriver.chrome.driver", driverFullPath);
-      System.out.println("Chrome Driver Path: " + driverFullPath);
+      System.setProperty(ChromeDriverService.CHROME_DRIVER_SILENT_OUTPUT_PROPERTY, "true");
+
       ChromeOptions options = new ChromeOptions();
       options.addArguments("headless");
       options.addArguments("window-size=1200x600"); // Testing large screens: Breakpoint 1024px
@@ -90,12 +94,10 @@ public class BrowserManager {
 
     /* Headless Firefox */
     else if (browserName.equalsIgnoreCase("firefoxheadless")) {
-      System.out.println("Firefox headless");
       FirefoxBinary firefoxBinary = new FirefoxBinary();
       firefoxBinary.addCommandLineOptions("--headless");
       String driverFullPath = getDriverPath(config, "FirefoxDriver");
       System.setProperty("webdriver.gecko.driver", driverFullPath);
-      System.out.println("Firefox Driver Path: " + driverFullPath);
       FirefoxOptions firefoxOptions = new FirefoxOptions();
       firefoxOptions.setBinary(firefoxBinary);
       driver = new FirefoxDriver(firefoxOptions);
@@ -106,18 +108,20 @@ public class BrowserManager {
     else if (browserName.equalsIgnoreCase("iphone6")) {
 
       System.setProperty("webdriver.chrome.driver", getDriverPath(config, "ChromeDriver"));
+      System.setProperty(ChromeDriverService.CHROME_DRIVER_SILENT_OUTPUT_PROPERTY, "true");
+
       Map<String, Object> mobileEmulation = new HashMap<>();
       mobileEmulation.put("deviceName", "iPhone 6");
       ChromeOptions chromeOptions = new ChromeOptions();
       chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
       driver = new ChromeDriver(chromeOptions);
-      System.out.println("Chrome driver instance created");
-      System.out.println("==============================");
     }
 
     else if (browserName.equalsIgnoreCase("ipad")) {
 
       System.setProperty("webdriver.chrome.driver", getDriverPath(config, "ChromeDriver"));
+      System.setProperty(ChromeDriverService.CHROME_DRIVER_SILENT_OUTPUT_PROPERTY, "true");
+
       Map<String, Object> mobileEmulation = new HashMap<>();
       mobileEmulation.put("deviceName", "iPad");
 
@@ -125,8 +129,6 @@ public class BrowserManager {
       chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
 
       driver = new ChromeDriver(chromeOptions);
-      System.out.println("Chrome driver instance created");
-      System.out.println("==============================");
     }
 
     // Allow up to a one second delay for elements to become available.
@@ -156,32 +158,31 @@ public class BrowserManager {
     Proxy seleniumProxy = ClientUtil.createSeleniumProxy(bmp);
     DesiredCapabilities capabilities = new DesiredCapabilities();
 
+    // Turn off Selenium logging for all browsers.
+    // This should likely be in a config file, but for now...
+    java.util.logging.Logger.getLogger("org.openqa.selenium").setLevel(java.util.logging.Level.OFF);
+
     if (browserName.equalsIgnoreCase("Chrome")) {
-      System.out.println("Chrome browser");
       String driverFullPath = getDriverPath(config, "ChromeDriver");
       System.setProperty("webdriver.chrome.driver", driverFullPath);
-      System.out.println("Chrome Driver Path: " + driverFullPath);
+      System.setProperty(ChromeDriverService.CHROME_DRIVER_SILENT_OUTPUT_PROPERTY, "true");
 
       chromeOptions.setCapability(CapabilityType.PROXY, seleniumProxy);
       driver = new ChromeDriver(chromeOptions);
       driver.manage().window().maximize();
       driver.get(url); // open proxy page
     } else if (browserName.equalsIgnoreCase("Firefox")) {
-      System.out.println("Firefox browser");
       String driverFullPath = getDriverPath(config, "FirefoxDriver");
       System.setProperty("webdriver.gecko.driver", driverFullPath);
-      System.out.println("Firefox Driver Path: " + driverFullPath);
 
       firefoxOptions.setCapability(CapabilityType.PROXY, seleniumProxy);
       driver = new FirefoxDriver(firefoxOptions);
       driver.manage().window().maximize();
       driver.get(url);
     } else if (browserName.toLowerCase().contains("headless")) {
-      System.out.println("Gecko headless");
       // Firefox/Geckdo driver are the same
       String driverFullPath = getDriverPath(config, "FirefoxDriver");
       System.setProperty("webdriver.gecko.driver", driverFullPath);
-      System.out.println("Gecko Driver Path: " + driverFullPath);
 
       FirefoxBinary firefoxBinary = new FirefoxBinary();
       firefoxBinary.addCommandLineOptions("--headless");
@@ -191,10 +192,9 @@ public class BrowserManager {
       driver.manage().window().maximize();
       driver.get(url);
     } else if (browserName.equalsIgnoreCase("ChromeHeadless")) {
-      System.out.println("Chrome headless");
       String driverFullPath = getDriverPath(config, "ChromeDriver");
       System.setProperty("webdriver.chrome.driver", driverFullPath);
-      System.out.println("Chrome Driver Path: " + driverFullPath);
+      System.setProperty(ChromeDriverService.CHROME_DRIVER_SILENT_OUTPUT_PROPERTY, "true");
 
       // TODO: handle NoSuchElementException
       // chromeOptions.addArguments("headless");
