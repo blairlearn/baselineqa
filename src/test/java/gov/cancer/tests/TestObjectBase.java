@@ -18,6 +18,7 @@ import com.relevantcodes.extentreports.LogStatus;
 
 import gov.cancer.framework.Configuration;
 import gov.cancer.framework.ScreenShot;
+import gov.cancer.pageobject.PageObjectBase;
 
 public abstract class TestObjectBase {
 
@@ -30,6 +31,20 @@ public abstract class TestObjectBase {
   public TestObjectBase() {
     this.config = new Configuration();
   }
+
+  public interface ITestAction {
+    void test();
+  }
+
+  protected <T extends PageObjectBase> void PerformTest(T page, ITestAction action) {
+    try {
+      action.test();
+    }
+    finally{
+      page.close();
+    }
+  }
+
 
   /**
    * @return the config

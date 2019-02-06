@@ -21,12 +21,12 @@ public class BreadCrumb_Test extends TestObjectBase {
 
     BreadCrumbPage page = new BreadCrumbPage(path);
 
-    try {
+    PerformTest(page, ()->{
+
       Assert.assertTrue(page.isBreadCrumbVisible(), "Bread crumb is visible.");
-    }
-    finally {
-      page.close();
-    }
+
+    });
+
   }
 
   /**
