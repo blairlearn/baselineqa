@@ -20,9 +20,7 @@ public class BreadCrumb_Test extends TestObjectBase {
   @Test(dataProvider = "BreadCrumbData")
   public void breadcrumbIsVisible(String path){
 
-    BreadCrumbPage page = new BreadCrumbPage(path);
-
-    TestRunner.PerformTest(page, ()->{
+    TestRunner.PerformTest(BreadCrumbPage.class, path, (BreadCrumbPage page)->{
 
       Assert.assertTrue(page.isBreadCrumbVisible(), "Bread crumb is visible.");
 
