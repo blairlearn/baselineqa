@@ -5,13 +5,19 @@ import java.io.FileOutputStream;
 import java.util.Calendar;
 
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
-import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.openqa.selenium.NoSuchElementException;
 
+/**
+ * Consider using ExcelDataReader instead.
+ */
+@Deprecated
 public class ExcelManager {
+
 
   public String path;
   public FileInputStream fis = null;
@@ -21,7 +27,7 @@ public class ExcelManager {
   private XSSFRow row = null;
   private XSSFCell cell = null;
 
-  public static ExcelManager create(String path){
+  public static ExcelManager load(String path){
     return new ExcelManager(path);
   }
 
@@ -36,6 +42,21 @@ public class ExcelManager {
       // Auto-generated catch block
       e.printStackTrace();
     }
+  }
+
+  /**
+   * Retrieves a single worksheet from the Excel workbook.
+   *
+   * @param worksheetName Name of the worksheet to retrieve.
+   * @return If worksheetName exists, an ExcelWorksheet object. Otherwise, throws
+   *         NoSuchElementException with the name of the missing worksheet.
+   */
+  public ExcelWorksheet getWorkSheet(String worksheetName) {
+    XSSFSheet sheet = workbook.getSheet(worksheetName);
+    if(sheet == null)
+      throw new NoSuchElementException(String.format("Cannot find worksheet '%s'.", worksheetName));
+
+    return new ExcelWorksheet(sheet);
   }
 
   // This method is to get the total row count of the sheet
@@ -87,9 +108,9 @@ public class ExcelManager {
       if (cell == null)
         return "";
       // System.out.println(cell.getCellType());
-      if (cell.getCellType() == Cell.CELL_TYPE_STRING)
+      if (cell.getCellType() == CellType.STRING)
         return cell.getStringCellValue();
-      else if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC || cell.getCellType() == Cell.CELL_TYPE_FORMULA) {
+      else if (cell.getCellType() == CellType.NUMERIC || cell.getCellType() == CellType.FORMULA) {
 
         String cellText = String.valueOf(cell.getNumericCellValue());
         if (HSSFDateUtil.isCellDateFormatted(cell)) {
@@ -105,7 +126,7 @@ public class ExcelManager {
         }
 
         return cellText;
-      } else if (cell.getCellType() == Cell.CELL_TYPE_BLANK)
+      } else if (cell.getCellType() == CellType.BLANK)
         return "";
       else
         return String.valueOf(cell.getBooleanCellValue());
@@ -122,7 +143,6 @@ public class ExcelManager {
    * name and Row number.
    */
 
-  @SuppressWarnings("deprecation")
   public String getCellData(String sheetName, int colNum, int rowNum) {
 
     try {
@@ -146,9 +166,9 @@ public class ExcelManager {
       if (cell == null)
         return "";
       // System.out.println(cell.getCellType());
-      if (cell.getCellType() == Cell.CELL_TYPE_STRING)
+      if (cell.getCellType() ==CellType.STRING)
         return cell.getStringCellValue();
-      else if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC || cell.getCellType() == Cell.CELL_TYPE_FORMULA) {
+      else if (cell.getCellType() == CellType.NUMERIC || cell.getCellType() == CellType.FORMULA) {
 
         String cellText = String.valueOf(cell.getNumericCellValue());
         if (HSSFDateUtil.isCellDateFormatted(cell)) {
@@ -164,7 +184,7 @@ public class ExcelManager {
         }
 
         return cellText;
-      } else if (cell.getCellType() == Cell.CELL_TYPE_BLANK)
+      } else if (cell.getCellType() ==CellType.BLANK)
         return "";
       else
         return String.valueOf(cell.getBooleanCellValue());
