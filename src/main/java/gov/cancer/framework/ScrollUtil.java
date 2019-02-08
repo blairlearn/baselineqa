@@ -14,10 +14,13 @@ public class ScrollUtil {
 
     WebDriverWait wait = new WebDriverWait(driver, MAX_SCROLL_DELAY);
 
-    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);" + "window.scrollBy(0,-200);",
-        element);
-
+    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);" + "window.scrollBy(0,-200);", element);
     wait.until(ExpectedConditions.visibilityOf(element));
+  }
+
+
+  public static void scrollIntoView(WebDriver driver, int l) {
+    ((JavascriptExecutor) driver).executeScript("scroll(0, " + l + ");");
   }
 
 }
