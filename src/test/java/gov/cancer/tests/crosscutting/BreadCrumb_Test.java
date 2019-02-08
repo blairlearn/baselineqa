@@ -16,6 +16,11 @@ import gov.cancer.tests.TestRunner;
  */
 public class BreadCrumb_Test extends TestObjectBase {
 
+  /**
+   * Are breadcrumbs displayed on pages where they're expected?
+   *
+   * @param path Path of the page to check.
+   */
   @Test(dataProvider = "getBreadCrumbPaths")
   public void breadcrumbIsVisible(String path){
 

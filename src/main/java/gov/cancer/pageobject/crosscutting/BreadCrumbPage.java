@@ -9,8 +9,6 @@ import gov.cancer.pageobject.PageObjectBase;
 /**
  * Pseudo page object representing any page in the system. The BreadCrumb class
  * is used solely for verifying attributes of a page's bread crumb trail.
- * <p>
- * The page to be tested is assumed to have been loaded prior to instantiation.
  */
 public class BreadCrumbPage extends PageObjectBase {
 
@@ -21,12 +19,17 @@ public class BreadCrumbPage extends PageObjectBase {
   /**
    * Constructor
    *
-   * @param driver WebDriver instance representing the browser.
+   * @param path server-relative path of the page to load.
    */
   public BreadCrumbPage(String path) {
     super(path);
   }
 
+  /**
+   * Reports whether the bread crumb is visible.
+   *
+   * @return True if the bread crumb is visible.
+   */
   public boolean isBreadCrumbVisible() {
     return breadCrumb.isDisplayed();
   }
